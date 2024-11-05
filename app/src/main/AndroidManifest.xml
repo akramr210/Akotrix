@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Akotrix"
         tools:targetApi="31">
         <activity
-            android:name=".SelectionActivity"
+            android:name=".selection.SelectionActivity"
             android:exported="true"
             android:screenOrientation="landscape"
             android:label="@string/app_name"
@@ -31,10 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".image_view.ImagesViewActivity"
             android:screenOrientation="landscape"
             />
-        <activity android:name=".ImagePositionModifyActivity"
+        <activity android:name=".position_change.ImagePositionModifyActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity android:name=".create_folder.CreateFolderActivity"
             android:screenOrientation="landscape"
             />
     </application>

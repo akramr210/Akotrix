@@ -1,4 +1,4 @@
-package com.app.akotrix
+package com.app.akotrix.image_view
 
 import android.os.Bundle
 import android.view.Window
@@ -6,10 +6,14 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.akotrix.R
+import com.app.akotrix.position_change.NameImageModel
+import com.app.akotrix.utils.SharedPreference
+import com.app.akotrix.utils.Util.getParcelableArrayList
 import com.smarteist.autoimageslider.SliderPager
 import com.smarteist.autoimageslider.SliderView
 
-class MainActivity : ComponentActivity() {
+class ImagesViewActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf()
 
     var strNames: MutableList<String> = mutableListOf()
@@ -79,7 +83,7 @@ class MainActivity : ComponentActivity() {
     fun getData() {
         strNames.clear()
         imgArr.clear()
-        val arr = SharedPreference.getSharedPreffObject(this, "data")!!
+        val arr = intent.getParcelableArrayList<NameImageModel>( "data") ?: arrayListOf()
         for (data in arr) {
             strNames.add(data.name)
             imgArr.add(data.drawable)

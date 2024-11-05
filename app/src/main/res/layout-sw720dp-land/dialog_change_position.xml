@@ -32,6 +32,7 @@
             android:gravity="center"
             android:maxLength="3"
             android:inputType="number"
+            android:imeOptions="flagNoExtractUi"
             android:layout_height="40dp"
             />
         </androidx.cardview.widget.CardView>

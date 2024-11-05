@@ -1,10 +1,11 @@
-package com.app.akotrix
+package com.app.akotrix.image_view
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.app.akotrix.R
 import com.bumptech.glide.Glide
 import com.smarteist.autoimageslider.SliderViewAdapter
 

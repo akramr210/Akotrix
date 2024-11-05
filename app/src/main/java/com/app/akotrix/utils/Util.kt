@@ -1,14 +1,21 @@
-package com.app.akotrix
+package com.app.akotrix.utils
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import com.app.akotrix.R
+import java.io.Serializable
 
 object Util {
     fun showDialog(context: Context, callback: (Int) -> Unit) {
@@ -38,5 +45,19 @@ object Util {
         val wlp = window!!.attributes
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT
         dialog.show()
+    }
+
+    @Suppress("DEPRECATION")
+    inline fun <reified T : Parcelable> Intent.getParcelableArrayList(key: String): ArrayList<T>? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            this.getParcelableArrayListExtra(key, T::class.java)
+        } else {
+            this.getParcelableArrayListExtra(key)
+        }
+    }
+
+    inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
     }
 }

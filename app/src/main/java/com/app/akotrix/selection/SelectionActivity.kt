@@ -1,9 +1,19 @@
-package com.app.akotrix
+package com.app.akotrix.selection
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.app.akotrix.image_view.ImagesViewActivity
+import com.app.akotrix.position_change.NameImageModel
+import com.app.akotrix.R
+import com.app.akotrix.create_folder.CreateFolderActivity
+import com.app.akotrix.create_folder.FolderModel
+import com.app.akotrix.utils.SharedPreference
+import com.app.akotrix.position_change.ImagePositionModifyActivity
+import com.app.akotrix.utils.Constants
 
 class SelectionActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf(
@@ -70,11 +80,17 @@ class SelectionActivity : ComponentActivity() {
         "Zetaca Thankyou"
     )
 
+    companion object{
+        var isRecall = false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
         val imgView = findViewById<ImageView>(R.id.imgView)
         val imgChange = findViewById<ImageView>(R.id.imgChange)
+        val imgCreate = findViewById<ImageView>(R.id.imgCreate)
+        val rvFolder = findViewById<RecyclerView>(R.id.rvFolder)
 
         val arr = SharedPreference.getSharedPreffObject(this, "data")
         if (arr.isNullOrEmpty())
@@ -83,15 +99,51 @@ class SelectionActivity : ComponentActivity() {
 
         }
 
+        val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
+
+        val folderAdapter = FolderAdapter(listFolder,::viewFolder,::changePositionFolder,::deleteFolder)
+        val linearLayoutManager = GridLayoutManager(this, 6)
+        rvFolder.layoutManager = linearLayoutManager
+        rvFolder.adapter = folderAdapter
+
         imgView.setOnClickListener {
-            val intent = Intent(this@SelectionActivity, MainActivity::class.java)
-            startActivity(intent)
+            val arr = SharedPreference.getSharedPreffObject(this, "data") ?: arrayListOf()
+            gotoViewPage(arr)
         }
 
         imgChange.setOnClickListener {
             val intent = Intent(this@SelectionActivity, ImagePositionModifyActivity::class.java)
+            intent.putExtra("from","main")
             startActivity(intent)
         }
+        imgCreate.setOnClickListener {
+            val intent = Intent(this@SelectionActivity, CreateFolderActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun viewFolder(arrFolder : ArrayList<NameImageModel>){
+        gotoViewPage(arrFolder)
+    }
+
+    private fun changePositionFolder(arrFolder : FolderModel,pos : Int){
+        val intent = Intent(this@SelectionActivity, ImagePositionModifyActivity::class.java)
+        intent.putExtra("from","folder")
+        intent.putExtra("pos",pos)
+        intent.putExtra("data",arrFolder)
+        startActivity(intent)
+    }
+
+    private fun deleteFolder(pos : Int){
+        val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
+        listFolder.removeAt(pos)
+        SharedPreference.putSharedPrefFolder(this,Constants.FOLDER_SP,listFolder)
+    }
+
+    private fun gotoViewPage(arr: java.util.ArrayList<NameImageModel>) {
+        val intent = Intent(this@SelectionActivity, ImagesViewActivity::class.java)
+        intent.putExtra("data",arr)
+        startActivity(intent)
     }
 
     private fun loadData() {
@@ -101,5 +153,13 @@ class SelectionActivity : ComponentActivity() {
             nameImageArr.add(nameImageModel)
         }
         SharedPreference.putSharedPrefObject(this, "data", nameImageArr)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isRecall){
+            isRecall = false
+            recreate()
+        }
     }
 }

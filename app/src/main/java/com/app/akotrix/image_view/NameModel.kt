@@ -1,4 +1,4 @@
-package com.app.akotrix
+package com.app.akotrix.image_view
 
 data class NameModel(
     val name: String,
