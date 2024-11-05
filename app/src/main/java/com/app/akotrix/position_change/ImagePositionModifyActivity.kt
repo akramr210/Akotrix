@@ -14,7 +14,7 @@ import com.app.akotrix.utils.Util.serializable
 
 class ImagePositionModifyActivity : ComponentActivity() {
 
-    var arrModel: ArrayList<NameImageModel>? = arrayListOf()
+    var arrModel: ArrayList<NameImageModel> = arrayListOf()
     lateinit var imageModifyAdapter: ImageModifyAdapter
     var folderModel: FolderModel? = null
     var folderPos = 0
@@ -25,29 +25,31 @@ class ImagePositionModifyActivity : ComponentActivity() {
         val rv = findViewById<RecyclerView>(R.id.rvImage)
         val from = intent.getStringExtra("from")
         if (from == "main")
-            arrModel = SharedPreference.getSharedPreffObject(this, "data")
+            arrModel = SharedPreference.getSharedPreffObject(this, "data") ?: arrayListOf()
         else {
             folderModel = intent.serializable<FolderModel>("data")
-            arrModel = folderModel?.arrFolder
+            arrModel = folderModel?.arrFolder ?: arrayListOf()
             folderPos = intent.getIntExtra("pos",0)
         }
 
-        arrModel?.let { arr ->
-            imageModifyAdapter = ImageModifyAdapter(arr) { currentPos ->
+            imageModifyAdapter = ImageModifyAdapter { currentPos ->
                 Util.showDialog(this) { newPos ->
-                    val element = arr.removeAt(currentPos)
-                    if ((newPos - 1) <= arr.size) {
-                        arr.add(newPos.minus(1), element)
+                    val element = arrModel.removeAt(currentPos)
+                    imageModifyAdapter.updateList(arrModel)
+                    if ((newPos - 1) <= arrModel.size) {
+                        arrModel.add(newPos.minus(1), element)
                     } else {
-                        arr.add(element)
+                        arrModel.add(element)
                     }
-                    imageModifyAdapter.notifyDataSetChanged()
+                    //imageModifyAdapter.submitList(arrModel)
+                    imageModifyAdapter.updateList(arrModel)
+                  //  imageModifyAdapter.notifyDataSetChanged()
                     if (from == "main")
-                        SharedPreference.putSharedPrefObject(this, "data", arr)
+                        SharedPreference.putSharedPrefObject(this, "data", arrModel)
                     else {
                         SelectionActivity.isRecall = true
                         val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
-                        val folderModelTemp = FolderModel(folderModel?.name?:"",arr)
+                        val folderModelTemp = FolderModel(folderModel?.name?:"",arrModel)
                         listFolder.set(folderPos,folderModelTemp)
                         SharedPreference.putSharedPrefFolder(this,Constants.FOLDER_SP,listFolder)
                     }
@@ -56,6 +58,7 @@ class ImagePositionModifyActivity : ComponentActivity() {
             val linearLayoutManager = GridLayoutManager(this, 6)
             rv.layoutManager = linearLayoutManager
             rv.adapter = imageModifyAdapter
-        }
+            imageModifyAdapter.updateList(arrModel)
+
     }
 }

@@ -2,12 +2,11 @@ package com.app.akotrix.create_folder
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputConnection
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.akotrix.R
@@ -70,6 +69,7 @@ class CreateFolderActivity : ComponentActivity() {
             }
             val linearLayoutManager = GridLayoutManager(this, 6)
             rv.layoutManager = linearLayoutManager
+            rv.setHasFixedSize(true)
             rv.adapter = createFolderAdapter
         }
     }
