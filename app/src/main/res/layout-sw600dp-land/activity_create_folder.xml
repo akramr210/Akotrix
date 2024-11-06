@@ -5,11 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvImage"
         android:layout_width="wrap_content"
+        android:layout_marginBottom="2dp"
         android:layout_above="@+id/linearCreate"
         android:layout_height="match_parent" />
 
@@ -17,15 +16,15 @@
         android:id="@+id/linearCreate"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
+        android:background="#EAEAEA"
         android:gravity="center_vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp">
 
         <androidx.cardview.widget.CardView
             android:layout_gravity="center"
-            android:layout_margin="10dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="3dp"
-
+            android:layout_marginLeft="20dp"
             android:layout_width="300dp"
             android:layout_height="wrap_content">
             <EditText
@@ -41,7 +40,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardCreate"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
+        android:layout_marginLeft="5dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="5dp"
         app:cardElevation="2dp"

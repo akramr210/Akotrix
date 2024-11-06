@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.akotrix.R
@@ -24,9 +25,9 @@ class FolderAdapter(
 
     class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvFolder = itemView.findViewById<TextView>(R.id.tvFolder)
-        val imgView = itemView.findViewById<ImageView>(R.id.imgView)
+        val imgDelete = itemView.findViewById<ImageView>(R.id.imgDelete)
         val imgChange = itemView.findViewById<ImageView>(R.id.imgChange)
-        val linearDelete = itemView.findViewById<LinearLayout>(R.id.linearDelete)
+        val relativeView = itemView.findViewById<RelativeLayout>(R.id.relativeView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NameViewHolder {
@@ -43,7 +44,7 @@ class FolderAdapter(
     override fun onBindViewHolder(holder: NameViewHolder, position: Int) {
         val nameArr = name[position]
         holder.tvFolder.text = nameArr.name
-        holder.imgView.setOnClickListener {
+        holder.relativeView.setOnClickListener {
             callbackView.invoke(nameArr.arrFolder)
         }
         holder.imgChange.tag = position
@@ -51,11 +52,11 @@ class FolderAdapter(
             val pos = it.tag as Int
             callbackChange.invoke(nameArr,pos)
         }
-        holder.linearDelete.tag = position
-        holder.linearDelete.setOnClickListener {
+        holder.imgDelete.tag = position
+        holder.imgDelete.setOnClickListener {
             val pos = it.tag as Int
-            name.removeAt(pos)
-            notifyDataSetChanged()
+           /* name.removeAt(pos)
+            notifyDataSetChanged()*/
             callbackDelete.invoke(pos)
         }
     }

@@ -3,6 +3,7 @@ package com.app.akotrix.selection
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.app.akotrix.create_folder.FolderModel
 import com.app.akotrix.utils.SharedPreference
 import com.app.akotrix.position_change.ImagePositionModifyActivity
 import com.app.akotrix.utils.Constants
+import com.app.akotrix.utils.Util
 
 class SelectionActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf(
@@ -45,7 +47,8 @@ class SelectionActivity : ComponentActivity() {
         R.drawable.zeta_fresh_ez_26,
         R.drawable.zeta_fresh_sb_27,
         R.drawable.platecure_28,
-        R.drawable.zetaca_thankyou_29
+        R.drawable.zetaca_thankyou_29,
+        R.drawable.acehelp_3
     )
 
     var strNames = mutableListOf(
@@ -77,9 +80,11 @@ class SelectionActivity : ComponentActivity() {
         "Zetafresh-EZ",
         "Zetafresh-SB",
         "Platecure",
-        "Zetaca Thankyou"
+        "Zetaca Thankyou",
+        "acehelp"
     )
-
+    lateinit var folderAdapter : FolderAdapter
+    var listFolder : ArrayList<FolderModel> = arrayListOf()
     companion object{
         var isRecall = false
     }
@@ -87,26 +92,26 @@ class SelectionActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selection)
-        val imgView = findViewById<ImageView>(R.id.imgView)
         val imgChange = findViewById<ImageView>(R.id.imgChange)
         val imgCreate = findViewById<ImageView>(R.id.imgCreate)
         val rvFolder = findViewById<RecyclerView>(R.id.rvFolder)
+        val linearAll = findViewById<LinearLayout>(R.id.linearAll)
 
         val arr = SharedPreference.getSharedPreffObject(this, "data")
         if (arr.isNullOrEmpty())
             loadData()
         else if (arr.size != imgArr.size && imgArr.size > arr.size) {
-
+            loadNextData(arr)
         }
 
-        val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
+        listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
 
-        val folderAdapter = FolderAdapter(listFolder,::viewFolder,::changePositionFolder,::deleteFolder)
+        folderAdapter = FolderAdapter(listFolder,::viewFolder,::changePositionFolder,::deleteFolder)
         val linearLayoutManager = GridLayoutManager(this, 6)
         rvFolder.layoutManager = linearLayoutManager
         rvFolder.adapter = folderAdapter
 
-        imgView.setOnClickListener {
+        linearAll.setOnClickListener {
             val arr = SharedPreference.getSharedPreffObject(this, "data") ?: arrayListOf()
             gotoViewPage(arr)
         }
@@ -135,9 +140,13 @@ class SelectionActivity : ComponentActivity() {
     }
 
     private fun deleteFolder(pos : Int){
-        val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
-        listFolder.removeAt(pos)
-        SharedPreference.putSharedPrefFolder(this,Constants.FOLDER_SP,listFolder)
+        Util.deleteDialog(this){
+            listFolder.removeAt(pos)
+            folderAdapter.notifyDataSetChanged()
+          /*  val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
+            listFolder.removeAt(pos)*/
+            SharedPreference.putSharedPrefFolder(this,Constants.FOLDER_SP,listFolder)
+        }
     }
 
     private fun gotoViewPage(arr: java.util.ArrayList<NameImageModel>) {
@@ -153,6 +162,14 @@ class SelectionActivity : ComponentActivity() {
             nameImageArr.add(nameImageModel)
         }
         SharedPreference.putSharedPrefObject(this, "data", nameImageArr)
+    }
+
+    private fun loadNextData(arr: ArrayList<NameImageModel>) {
+        for(i in arr.size..imgArr.size.minus(1)){
+            val nameImageModel = NameImageModel(strNames[i], imgArr[i])
+            arr.add(nameImageModel)
+        }
+        SharedPreference.putSharedPrefObject(this, "data", arr)
     }
 
     override fun onResume() {

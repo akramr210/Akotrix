@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    app:cardBackgroundColor="#EAEAEA"
+    app:cardBackgroundColor="#90EAEAEA"
     app:cardCornerRadius="3dp"
     app:cardElevation="0dp"
     android:layout_marginTop="15dp"
@@ -40,8 +40,8 @@
 
         <ImageView
             android:id="@+id/imgRight"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:background="@drawable/check"
             android:layout_gravity="center"
             android:paddingLeft="10dp"

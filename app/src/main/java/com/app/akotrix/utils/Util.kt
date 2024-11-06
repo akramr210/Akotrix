@@ -47,6 +47,31 @@ object Util {
         dialog.show()
     }
 
+     fun deleteDialog(context: Context, callback: () -> Unit) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_delete)
+
+        val cardCancel = dialog.findViewById<CardView>(R.id.cardCancel)
+        val cardSubmit = dialog.findViewById<CardView>(R.id.cardSubmit)
+
+        cardSubmit.setOnClickListener {
+            dialog.dismiss()
+          callback.invoke()
+        }
+
+        cardCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val window = dialog.window
+        val wlp = window!!.attributes
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT
+        dialog.show()
+    }
+
     @Suppress("DEPRECATION")
     inline fun <reified T : Parcelable> Intent.getParcelableArrayList(key: String): ArrayList<T>? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

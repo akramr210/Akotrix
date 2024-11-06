@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/linearAll"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:gravity="center">
@@ -54,22 +55,6 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:src="@drawable/exchange" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="70dp"
-                    android:background="#50000000" />
-
-
-                <ImageView
-                    android:id="@+id/imgView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/view_images" />
 
                 <View
                     android:layout_width="1dp"
