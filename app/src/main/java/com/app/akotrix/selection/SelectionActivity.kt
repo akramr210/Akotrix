@@ -19,6 +19,7 @@ import com.app.akotrix.utils.Util
 
 class SelectionActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf(
+        R.drawable.img_akotrix,
         R.drawable.sertavel_1,
         R.drawable.acehelp_3,
         R.drawable.darohelp_4,
@@ -33,12 +34,10 @@ class SelectionActivity : ComponentActivity() {
         R.drawable.zetexyl_dx_20,
         R.drawable.uti_zet_13,
         R.drawable.velcum_14,
-        R.drawable.zetacool_15,
         R.drawable.nutrihelp_lc_16,
         R.drawable.nurodium_d_17,
         R.drawable.nurodium_ptm_18,
         R.drawable.s_citaclon_19,
-        R.drawable.zetexyl_dx_20,
         R.drawable.zetexyl_lx_21,
         R.drawable.constiihelp_22,
         R.drawable.hyzine_25_23,
@@ -47,11 +46,11 @@ class SelectionActivity : ComponentActivity() {
         R.drawable.zeta_fresh_ez_26,
         R.drawable.zeta_fresh_sb_27,
         R.drawable.platecure_28,
-        R.drawable.zetaca_thankyou_29,
-        R.drawable.acehelp_3
+        R.drawable.naprozet,
     )
 
     var strNames = mutableListOf(
+        "Akotrix",
         "Sertavel",
         "Acehelp-SP",
         "Darohelp",
@@ -66,12 +65,10 @@ class SelectionActivity : ComponentActivity() {
         "ZETEXYL-DX",
         "UTI-ZET",
         "VELCUM",
-        "Zetacool Gel",
         "NUTRIHELP-LC",
         "NURODIUM-D",
         "Nurodium-PMT",
         "S-Citaclon",
-        "ZETEXYL-DX",
         "Zetexyl-LX",
         "CONSTIHELP",
         "HYZINE-25",
@@ -80,8 +77,7 @@ class SelectionActivity : ComponentActivity() {
         "Zetafresh-EZ",
         "Zetafresh-SB",
         "Platecure",
-        "Zetaca Thankyou",
-        "acehelp"
+        "Naprozet",
     )
     lateinit var folderAdapter : FolderAdapter
     var listFolder : ArrayList<FolderModel> = arrayListOf()
