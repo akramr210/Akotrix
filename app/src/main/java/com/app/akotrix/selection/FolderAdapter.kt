@@ -17,7 +17,8 @@ class FolderAdapter(
     val name: ArrayList<FolderModel>,
     val callbackView: (ArrayList<NameImageModel>) -> Unit,
     val callbackChange: (FolderModel,Int) -> Unit,
-    val callbackDelete: (Int) -> Unit
+    val callbackDelete: (Int) -> Unit,
+    val callbackAdd: (FolderModel,Int) -> Unit
 ) :
     RecyclerView.Adapter<FolderAdapter.NameViewHolder>() {
 
@@ -27,6 +28,7 @@ class FolderAdapter(
         val tvFolder = itemView.findViewById<TextView>(R.id.tvFolder)
         val imgDelete = itemView.findViewById<ImageView>(R.id.imgDelete)
         val imgChange = itemView.findViewById<ImageView>(R.id.imgChange)
+        val imgAdd = itemView.findViewById<ImageView>(R.id.imgAdd)
         val relativeView = itemView.findViewById<RelativeLayout>(R.id.relativeView)
     }
 
@@ -58,6 +60,11 @@ class FolderAdapter(
            /* name.removeAt(pos)
             notifyDataSetChanged()*/
             callbackDelete.invoke(pos)
+        }
+        holder.imgAdd.tag = position
+        holder.imgAdd.setOnClickListener {
+            val pos = it.tag as Int
+            callbackAdd.invoke(nameArr,pos)
         }
     }
 }

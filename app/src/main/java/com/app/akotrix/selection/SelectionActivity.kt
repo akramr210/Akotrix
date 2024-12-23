@@ -2,6 +2,7 @@ package com.app.akotrix.selection
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
@@ -19,12 +20,12 @@ import com.app.akotrix.utils.Util
 
 class SelectionActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf(
-        R.drawable.img_akotrix,
+        R.drawable.img_akotrix_new1,
         R.drawable.sertavel_1,
         R.drawable.acehelp_3,
         R.drawable.darohelp_4,
         R.drawable.darohelp_z_5,
-        R.drawable.rapidak_6,
+        R.drawable.rapidak_new_6,
         R.drawable.nutrihelp_7,
         R.drawable.takan_8,
         R.drawable.largisure_9,
@@ -47,6 +48,7 @@ class SelectionActivity : ComponentActivity() {
         R.drawable.zeta_fresh_sb_27,
         R.drawable.platecure_28,
         R.drawable.naprozet,
+        R.drawable.nurodium_d,
     )
 
     var strNames = mutableListOf(
@@ -78,6 +80,7 @@ class SelectionActivity : ComponentActivity() {
         "Zetafresh-SB",
         "Platecure",
         "Naprozet",
+        "NURODIUM D",
     )
     lateinit var folderAdapter : FolderAdapter
     var listFolder : ArrayList<FolderModel> = arrayListOf()
@@ -92,6 +95,7 @@ class SelectionActivity : ComponentActivity() {
         val imgCreate = findViewById<ImageView>(R.id.imgCreate)
         val rvFolder = findViewById<RecyclerView>(R.id.rvFolder)
         val linearAll = findViewById<LinearLayout>(R.id.linearAll)
+        val btn = findViewById<Button>(R.id.btn)
 
         val arr = SharedPreference.getSharedPreffObject(this, "data")
         if (arr.isNullOrEmpty())
@@ -102,7 +106,7 @@ class SelectionActivity : ComponentActivity() {
 
         listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP)?: arrayListOf()
 
-        folderAdapter = FolderAdapter(listFolder,::viewFolder,::changePositionFolder,::deleteFolder)
+        folderAdapter = FolderAdapter(listFolder,::viewFolder,::changePositionFolder,::deleteFolder,::updateFolder)
         val linearLayoutManager = GridLayoutManager(this, 6)
         rvFolder.layoutManager = linearLayoutManager
         rvFolder.adapter = folderAdapter
@@ -119,7 +123,11 @@ class SelectionActivity : ComponentActivity() {
         }
         imgCreate.setOnClickListener {
             val intent = Intent(this@SelectionActivity, CreateFolderActivity::class.java)
+            intent.putExtra("from","main")
             startActivity(intent)
+        }
+        btn.setOnClickListener {
+            loadData()
         }
     }
 
@@ -129,6 +137,14 @@ class SelectionActivity : ComponentActivity() {
 
     private fun changePositionFolder(arrFolder : FolderModel,pos : Int){
         val intent = Intent(this@SelectionActivity, ImagePositionModifyActivity::class.java)
+        intent.putExtra("from","folder")
+        intent.putExtra("pos",pos)
+        intent.putExtra("data",arrFolder)
+        startActivity(intent)
+    }
+
+    private fun updateFolder(arrFolder : FolderModel,pos : Int){
+        val intent = Intent(this@SelectionActivity, CreateFolderActivity::class.java)
         intent.putExtra("from","folder")
         intent.putExtra("pos",pos)
         intent.putExtra("data",arrFolder)

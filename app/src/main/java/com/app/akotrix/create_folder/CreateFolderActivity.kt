@@ -15,6 +15,7 @@ import com.app.akotrix.position_change.NameImageModel
 import com.app.akotrix.selection.SelectionActivity
 import com.app.akotrix.utils.Constants
 import com.app.akotrix.utils.SharedPreference
+import com.app.akotrix.utils.Util.serializable
 
 
 class CreateFolderActivity : ComponentActivity() {
@@ -22,6 +23,8 @@ class CreateFolderActivity : ComponentActivity() {
     var arrModel: ArrayList<NameImageModel>? = arrayListOf()
     var arrSelected: ArrayList<NameImageModel> = arrayListOf()
     lateinit var createFolderAdapter: CreateFolderAdapter
+    var folderPos = 0
+    var from = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_folder)
@@ -34,7 +37,11 @@ class CreateFolderActivity : ComponentActivity() {
             if (edt.text.toString() != "") {
                 val listFolder = SharedPreference.getSharedPrefFolder(this, Constants.FOLDER_SP) ?: arrayListOf()
                 val folderModel = FolderModel(edt.text.toString(), arrSelected)
+                if(from =="main")
                 listFolder.add(folderModel)
+                else
+                    listFolder.set(folderPos,folderModel)
+
                 SharedPreference.putSharedPrefFolder(this,Constants.FOLDER_SP,listFolder)
                 Toast.makeText(this, "Created", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this,SelectionActivity::class.java))
@@ -43,7 +50,31 @@ class CreateFolderActivity : ComponentActivity() {
                 Toast.makeText(this, "Please enter Name", Toast.LENGTH_LONG).show()
         }
 
-        arrModel = SharedPreference.getSharedPreffObject(this, "data")
+        from = intent.getStringExtra("from")?:""
+        if (from == "main")
+            arrModel = SharedPreference.getSharedPreffObject(this, "data")
+        else {
+           arrModel = SharedPreference.getSharedPreffObject(this, "data")
+
+            val folderModel = intent.serializable<FolderModel>("data")
+            val folderArrModel = folderModel?.arrFolder
+            if (arrModel != null&&folderArrModel!=null) {
+                for((index,value) in arrModel!!.withIndex()){
+                    for(value1 in folderArrModel){
+                        if(value.name == value1.name){
+                           value.isSelected = value1.isSelected
+                            arrModel!!.set(index,value)
+                        }
+                    }
+                }
+            }
+            if (folderArrModel != null) {
+                arrSelected = folderArrModel
+            }
+            folderPos = intent.getIntExtra("pos",0)
+            edt.setText(folderModel?.name.toString())
+        }
+      // arrModel = SharedPreference.getSharedPreffObject(this, "data")
         arrModel?.let { arr ->
             createFolderAdapter = CreateFolderAdapter(arr) { currentPos ->
                 val element = arr[currentPos]
@@ -66,7 +97,7 @@ class CreateFolderActivity : ComponentActivity() {
                 }
 
                 arr[currentPos] = element
-                createFolderAdapter.notifyDataSetChanged()
+                createFolderAdapter.notifyItemChanged(currentPos)
             }
             val linearLayoutManager = GridLayoutManager(this, 6)
             rv.layoutManager = linearLayoutManager

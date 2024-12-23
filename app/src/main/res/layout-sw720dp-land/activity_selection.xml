@@ -6,89 +6,100 @@
     android:orientation="vertical"
     android:padding="30dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardChange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#f2f2f2"
-        app:cardCornerRadius="3dp"
-        app:cardElevation="3dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="180dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardChange"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            app:cardBackgroundColor="#f2f2f2"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp">
 
             <LinearLayout
-                android:id="@+id/linearAll"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="center">
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="All"
-                    android:textSize="60sp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/linearAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:gravity="center">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="All"
+                        android:textSize="60sp"
+                        android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#50000000" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:id="@+id/imgChange"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/exchange" />
+                </LinearLayout>
 
                 <View
-                    android:layout_width="1dp"
-                    android:layout_height="70dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:background="#50000000" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imgCreate"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/add" />
+
+                    <ImageView
+                        android:id="@+id/imgChange"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/exchange" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="70dp"
+                        android:background="#50000000" />
+
+
+                    <ImageView
+                        android:id="@+id/imgCreate"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/add" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Reload" />
+    </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#50000000"
-        />
+        android:background="#50000000" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFolder"
