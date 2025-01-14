@@ -20,7 +20,7 @@ import com.app.akotrix.utils.Util
 
 class SelectionActivity : ComponentActivity() {
     var imgArr: MutableList<Int> = mutableListOf(
-        R.drawable.img_akotrix_new1,
+        R.drawable.img_akotrix_new3,
         R.drawable.sertavel_1,
         R.drawable.acehelp_3,
         R.drawable.darohelp_4,
