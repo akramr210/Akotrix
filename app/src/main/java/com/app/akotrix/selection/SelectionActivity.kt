@@ -50,8 +50,11 @@ class SelectionActivity : ComponentActivity() {
         R.drawable.naprozet,
         R.drawable.nurodium_d,
         R.drawable.akotel_40,
-        R.drawable.akotel_trio,
+        R.drawable.img_akotel_trio,
         R.drawable.akotel_ln_40,
+        R.drawable.img_olenvel,
+        R.drawable.img_sertavel,
+        R.drawable.img_zetacort_6,
     )
 
     var strNames = mutableListOf(
@@ -87,6 +90,9 @@ class SelectionActivity : ComponentActivity() {
         "Akotel-40",
         "Akotel-Trio",
         "Akotel-LN 40",
+        "Olenvel 2.5",
+        "Sertavel 25",
+        "Zetacort 6",
     )
     lateinit var folderAdapter : FolderAdapter
     var listFolder : ArrayList<FolderModel> = arrayListOf()
